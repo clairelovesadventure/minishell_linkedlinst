@@ -1,0 +1,9 @@
+# 创建并编辑 .gitignore
+touch .gitignore
+
+# .gitignore 内容
+.DS_Store
+*.o
+*.a
+minishell
+.vscode/

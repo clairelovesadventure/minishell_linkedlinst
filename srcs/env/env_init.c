@@ -6,11 +6,11 @@
 /*   By: shutan <shutan@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/01 00:00:00 by user              #+#    #+#             */
-/*   Updated: 2025/04/10 16:00:21 by shutan           ###   ########.fr       */
+/*   Updated: 2025/04/10 18:26:22 by shutan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../includes/minishell.h"
 
 static t_env	*create_env_node(char *value)
 {
@@ -69,4 +69,4 @@ void	free_env(t_env *env)
 		free(current);
 		current = next;
 	}
-} 
+}

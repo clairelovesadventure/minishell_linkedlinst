@@ -1,15 +1,14 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   basic_parsing.c                                    :+:      :+:    :+:   */
+/*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: shutan <shutan@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/10 16:08:46 by shutan            #+#    #+#             */
-/*   Updated: 2025/04/14 17:43:58 by shutan           ###   ########.fr       */
+/*   Created: 2025/04/14 17:38:31 by shutan            #+#    #+#             */
+/*   Updated: 2025/04/14 17:38:33 by shutan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../../includes/minishell.h"
 
@@ -45,18 +44,19 @@ void	add_token(t_token **head, t_token *new_token)
 
 static int	get_token_type(char *word)
 {
-	int	type;
-
-	type = TOKEN_WORD;
+	if (!word)
+		return (TOKEN_EOF);
 	if (ft_strncmp(word, "|", 2) == 0)
-		type = TOKEN_PIPE;
-	else if (ft_strncmp(word, "<", 2) == 0)
-		type = TOKEN_REDIR_IN;
-	else if (ft_strncmp(word, ">", 2) == 0)
-		type = TOKEN_REDIR_OUT;
-	else if (ft_strncmp(word, ">>", 3) == 0)
-		type = TOKEN_APPEND;
-	return (type);
+		return (TOKEN_PIPE);
+	if (ft_strncmp(word, "<<", 2) == 0)
+		return (TOKEN_HEREDOC);
+	if (ft_strncmp(word, ">>", 2) == 0)
+		return (TOKEN_APPEND);
+	if (ft_strncmp(word, "<", 2) == 0)
+		return (TOKEN_REDIR_IN);
+	if (ft_strncmp(word, ">", 2) == 0)
+		return (TOKEN_REDIR_OUT);
+	return (TOKEN_WORD);
 }
 
 static void	free_word_array(char **words)
@@ -65,25 +65,18 @@ static void	free_word_array(char **words)
 
 	i = 0;
 	while (words[i])
-	{
-		free(words[i]);
-		i++;
-	}
+		free(words[i++]);
 	free(words);
 }
 
-t_token	*basic_parsing(char *input)
+static t_token	*process_words(char **words)
 {
 	t_token	*tokens;
-	char	**words;
-	int		i;
 	t_token	*new_token;
+	int		i;
 	int		type;
 
 	tokens = NULL;
-	words = ft_split(input, ' ');
-	if (!words)
-		return (NULL);
 	i = 0;
 	while (words[i])
 	{
@@ -94,6 +87,20 @@ t_token	*basic_parsing(char *input)
 		add_token(&tokens, new_token);
 		i++;
 	}
+	return (tokens);
+}
+
+t_token	*tokenize(char *input)
+{
+	char	**words;
+	t_token	*tokens;
+
+	if (!input)
+		return (NULL);
+	words = ft_split(input, ' ');
+	if (!words)
+		return (NULL);
+	tokens = process_words(words);
 	free_word_array(words);
 	return (tokens);
 }
@@ -111,4 +118,4 @@ void	free_tokens(t_token *tokens)
 		free(current);
 		current = next;
 	}
-}
+} 

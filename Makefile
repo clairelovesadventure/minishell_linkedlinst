@@ -14,7 +14,6 @@ SRCS_DIR = srcs/
 SRCS = main/main.c \
        parsing/basic_parsing.c \
        env/env_init.c \
-       utils/ft_putnbr_fd.c
 
 # Convert SRCS to full paths
 SRCS_PATHS = $(addprefix $(SRCS_DIR), $(SRCS))

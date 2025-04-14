@@ -6,12 +6,11 @@
 /*   By: shutan <shutan@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 15:30:18 by shutan            #+#    #+#             */
-/*   Updated: 2025/04/10 15:30:18 by shutan           ###   ########.fr       */
+/*   Updated: 2025/04/14 17:43:27 by shutan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
-#include "minishell.h"
+#include "../../includes/minishell.h"
 
 static t_shell	*init_shell(char **envp)
 {
@@ -26,7 +25,7 @@ static t_shell	*init_shell(char **envp)
 	return (shell);
 }
 
-static void	cleanup_shell(t_shell *shell)
+void	cleanup_shell(t_shell *shell)
 {
 	if (!shell)
 		return ;
@@ -92,4 +91,4 @@ int	main(int argc, char **argv, char **envp)
 	cleanup_shell(shell);
 	clear_history();
 	return (0);
-} 
+}
